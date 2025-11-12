@@ -1,14 +1,21 @@
-APP=$(shell basename $(shell git remote get-url origin) .git)
-REGISTRY=mykytakhomenko
-VERSION=$(shell git describe --tags --abbrev=0)-$(shell git rev-parse --short HEAD)
-TARGETOS=linux #linux darwin windows
-TARGETARCH=amd64 #amd64 arm64
+APP = $(shell basename $(shell git remote get-url origin) .git)
+REGISTRY = mykytakhomenko
+VERSION = $(shell git describe --tags --abbrev=0)-$(shell git rev-parse --short HEAD)
+TARGETOS = linux
+TARGETARCH = arm64
+
+ifeq ($(TARGETOS),)
+$(error TARGETOS is not set)
+endif
+ifeq ($(TARGETARCH),)
+$(error TARGETARCH is not set)
+endif
 
 format:
-	gofmt -s -w ./
+	@echo "Formatting Go code..."
+	@gofmt -s -w ./
 
 install-lint:
-	#@which golangci-lint >/dev/null || (echo "Installing golangci-lint..." && go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest)
 	@which golangci-lint >/dev/null || (echo "Installing golangci-lint..." && curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/HEAD/install.sh | sh -s -- -b $(go env GOPATH)/bin v2.6.1)
 
 lint:
@@ -16,19 +23,43 @@ lint:
 	@golangci-lint run ./...
 
 test:
-	go test -v
+	@echo "Running tests..."
+	@go test -v
 
 get:
-	go get
+	@echo "Getting dependencies..."
+	@go get
 
 build: format get
-	CGO_ENABLED=0 GOOS=${TARGETOS} GOARCH=${TARGETARCH} go build -v -o kbot -ldflags "-X="github.com/nicksya/kbot/cmd.appVersion=${VERSION}
+	@echo "Building production version..."
+	CGO_ENABLED=0 GOOS=${TARGETOS} GOARCH=${TARGETARCH} go build -v -o kbot -ldflags "-X=github.com/nicksya/kbot/cmd.appVersion=${VERSION} -w -s"
 
 image:
-	docker build . -t ${REGISTRY}/${APP}:${VERSION}-${TARGETARCH}
+	@echo "Building Docker image..."
+	docker build . -t ${REGISTRY}/${APP}:${VERSION}-${TARGETARCH} --build-arg TARGETARCH=$(TARGETARCH) --build-arg TARGETOS=$(TARGETOS)
 
 push:
+	@echo "Pushing Docker image..."
 	docker push ${REGISTRY}/${APP}:${VERSION}-${TARGETARCH}
 
 clean:
-	rm -rf kbot
+	@echo "Cleaning build artifacts..."
+	@rm -rf kbot
+	@docker rmi ${REGISTRY}/${APP}:${VERSION}-${TARGETARCH} || true
+
+help:
+	@echo "Available targets:"
+	@echo "  help     - Show this help message"
+	@echo "  format   - Format Go code"
+	@echo "  lint     - Run golangci-lint"
+	@echo "  test     - Run tests"
+	@echo "  get      - Get dependencies"
+	@echo "  build    - Build the application"
+	@echo "  image    - Build Docker image"
+	@echo "  push     - Push Docker image to registry"
+	@echo "  clean    - Clean build artifacts"
+	@echo ""
+	@echo "Configuration:"
+	@echo "  TARGETOS   - Target OS (linux, darwin, windows) [$(TARGETOS)]"
+	@echo "  TARGETARCH - Target architecture (amd64, arm64) [$(TARGETARCH)]"
+	@echo "  CGO_ENABLED - Enable CGO (0 or 1) [$(CGO_ENABLED)]"

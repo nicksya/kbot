@@ -37,7 +37,7 @@ build: format get
 
 image:
 	@echo "Building Docker image..."
-	@docker build . -t ${REGISTRY}/${APP}:${VERSION}-${TARGETARCH} --platform $(TARGETPLATFORM) --build-arg TARGETARCH=$(TARGETARCH) --build-arg TARGETOS=$(TARGETOS)
+	@docker build . -t ${REGISTRY}/${APP}:${VERSION}-${TARGETARCH} --platform $(TARGETPLATFORM)
 
 push:
 	@echo "Pushing Docker image..."

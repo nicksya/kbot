@@ -1,4 +1,4 @@
-FROM quay.io/projectquay/golang:1.24 as builder
+FROM --platform=$BUILDPLATFORM quay.io/projectquay/golang:1.24 AS builder
 
 WORKDIR /go/src/app
 COPY . .

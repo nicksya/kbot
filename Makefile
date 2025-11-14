@@ -3,6 +3,7 @@ REGISTRY = ghcr.io/nicksya
 VERSION = $(shell git describe --tags --abbrev=0)-$(shell git rev-parse --short HEAD)
 TARGETOS = linux
 TARGETARCH = arm64
+TARGETPLATFORM = $(TARGETOS)/$(TARGETARCH)
 
 ifeq ($(TARGETOS),)
 $(error TARGETOS is not set)
@@ -36,7 +37,7 @@ build: format get
 
 image:
 	@echo "Building Docker image..."
-	docker build . -t ${REGISTRY}/${APP}:${VERSION}-${TARGETARCH} --build-arg TARGETARCH=$(TARGETARCH) --build-arg TARGETOS=$(TARGETOS)
+	@docker build . -t ${REGISTRY}/${APP}:${VERSION}-${TARGETARCH} --platform $(TARGETPLATFORM) --build-arg TARGETARCH=$(TARGETARCH) --build-arg TARGETOS=$(TARGETOS)
 
 push:
 	@echo "Pushing Docker image..."

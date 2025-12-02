@@ -2,8 +2,10 @@ APP = $(shell basename $(shell git remote get-url origin) .git)
 REGISTRY = ghcr.io/nicksya
 VERSION = $(shell git describe --tags --abbrev=0)-$(shell git rev-parse --short HEAD)
 TARGETOS = linux
-TARGETARCH = arm64
+TARGETARCH = amd64
 TARGETPLATFORM = $(TARGETOS)/$(TARGETARCH)
+# Multiplatform options
+# TARGETPLATFORM = linux/amd64,linux/arm64
 
 ifeq ($(TARGETOS),)
 $(error TARGETOS is not set)

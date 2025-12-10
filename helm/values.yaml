@@ -1,0 +1,12 @@
+replicaCount: 1
+image:
+  repository: mykytakhomenko
+  tag: "v1.0.5-d54d860"
+  arch: amd64
+secret:
+  envName: "TELE_TOKEN"
+  tokenKey: "token"
+  tokenName: "kbot"
+securityContext:
+  privileged: true
+

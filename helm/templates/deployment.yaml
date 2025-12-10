@@ -37,8 +37,6 @@ spec:
         name: dev-mem
       containers:
         - name: {{ .Chart.Name }}
-          securityContext:
-            {{- toYaml . | nindent 12 }}
           volumeMounts:
           - mountPath: /dev/mem
             name: dev-mem

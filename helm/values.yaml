@@ -1,7 +1,7 @@
 replicaCount: 1
 image:
   repository: mykytakhomenko
-  tag: "v1.0.5-d54d860"
+  tag: "v1.0.6-caa81cf"
   arch: amd64
 secret:
   envName: "TELE_TOKEN"

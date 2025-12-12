@@ -1,6 +1,11 @@
 name: KBOT-CICD
 
 on: push
+env:
+  REGISTRY: docker.io
+  REPO: mykytakhomenko/kbot
+  TARGETOS: linux
+  TARGETARCH: amd64
 
 jobs:
   ci:
@@ -24,7 +29,7 @@ jobs:
         env:
           APP: "kbot"
           REGISTRY: ${{ secrets.DOCKERHUB_USERNAME }}
-        run: make image push
+        run: make image push TARGETARCH=$TARGETARCH TARGETOS=$TARGETOS REGISTRY=$REGISTRY REPO=$REPO
 
   cd:
     name: CD
@@ -40,7 +45,7 @@ jobs:
 
       - uses: mikefarah/yq@master
         with: 
-          cmd: yq -i '.image.tag=strenv(VERSION)' helm/values.yaml
+          cmd: yq -i '.image.tag=strenv(VERSION) | .image.os=strenv(TARGETOS) | .image.arch=strenv(TARGETARCH) | .image.registry=strenv(REGISTRY) | .image.repository=strenv(REPO)' helm/values.yaml
       
       - run: |
           git config user.name github-actions

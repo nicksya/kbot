@@ -1,5 +1,6 @@
-APP = $(shell basename $(shell git remote get-url origin) .git)
-REGISTRY = mykytakhomenko
+#APP = $(shell basename $(shell git remote get-url origin) .git)
+REGISTRY = docker.io
+REPO = mykytakhomenko/kbot
 VERSION = $(shell git describe --tags --abbrev=0)-$(shell git rev-parse --short HEAD)
 TARGETOS = linux
 TARGETARCH = amd64
@@ -39,16 +40,16 @@ build: format get
 
 image:
 	@echo "Building Docker image..."
-	@docker build . -t ${REGISTRY}/${APP}:${VERSION}-${TARGETARCH} --platform $(TARGETPLATFORM)
+	@docker build . -t ${REGISTRY}/${REPO}:${VERSION}-${TARGETOS}-${TARGETARCH} --platform $(TARGETPLATFORM)
 
 push:
 	@echo "Pushing Docker image..."
-	docker push ${REGISTRY}/${APP}:${VERSION}-${TARGETARCH}
+	docker push ${REGISTRY}/${REPO}:${VERSION}-${TARGETOS}-${TARGETARCH}
 
 clean:
 	@echo "Cleaning build artifacts..."
 	@rm -rf kbot
-	@docker rmi ${REGISTRY}/${APP}:${VERSION}-${TARGETARCH} || true
+	@docker rmi ${REGISTRY}/${REPO}:${VERSION}-${TARGETOS}-${TARGETARCH} || true
 
 help:
 	@echo "Available targets:"
@@ -65,4 +66,6 @@ help:
 	@echo "Configuration:"
 	@echo "  TARGETOS   - Target OS (linux, darwin, windows) [$(TARGETOS)]"
 	@echo "  TARGETARCH - Target architecture (amd64, arm64) [$(TARGETARCH)]"
+	@echo "  REGISTRY	- Container registry to store image to (docker.io, ghcr.io) [$(REGISTRY)]"
+	@echo "  REPO   	- Name of the repository in the registry [$(REPO)]"
 	@echo "  CGO_ENABLED - Enable CGO (0 or 1) [$(CGO_ENABLED)]"

@@ -1,7 +1,7 @@
 replicaCount: 1
 image:
   repository: mykytakhomenko
-  tag: "v1.0.6-caa81cf"
+  tag: "v1.0.6-b70c500"
   arch: amd64
 secret:
   envName: "TELE_TOKEN"
@@ -9,4 +9,3 @@ secret:
   tokenName: "kbot"
 securityContext:
   privileged: true
-

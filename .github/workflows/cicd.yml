@@ -45,10 +45,10 @@ jobs:
 
       - uses: mikefarah/yq@master
         with: 
-          cmd: yq -i '.image.tag=strenv(VERSION) | .image.os=strenv(TARGETOS) | .image.arch=strenv(TARGETARCH) | .image.registry=strenv(REGISTRY) | .image.repository=strenv(REPO)' helm/values.yaml
+          cmd: yq -i '.image.tag=strenv(VERSION) | .image.os=strenv(TARGETOS) | .image.arch=strenv(TARGETARCH) | .image.registry=strenv($CONTAINER_REGISTRY) | .image.repository=strenv(REPO)' helm/values.yaml
       
       - run: |
           git config user.name github-actions
           git config user.email github-actions@github.com
-          git commit -am "update version $VERSION"
+          git commit -am "update values.yaml to version $VERSION"
           git push

@@ -2,7 +2,7 @@ name: KBOT-CICD
 
 on: push
 env:
-  REGISTRY: docker.io
+  REGISTRY: ""
   REPO: mykytakhomenko/kbot
   TARGETOS: linux
   TARGETARCH: amd64

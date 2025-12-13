@@ -2,7 +2,7 @@ name: KBOT-CICD
 
 on: push
 env:
-  REGISTRY: ""
+  REGISTRY: docker.io
   REPO: mykytakhomenko/kbot
   TARGETOS: linux
   TARGETARCH: amd64
@@ -34,7 +34,7 @@ jobs:
           echo $REPO
           echo $TARGETOS
           echo $TARGETARCH 
-          make image push TARGETARCH=$TARGETARCH TARGETOS=$TARGETOS REGISTRY=$REGISTRY REPO=$REPO
+          make image push TARGETARCH=$TARGETARCH TARGETOS=$TARGETOS REGISTRY=docker.io REPO=$REPO
 
   cd:
     name: CD

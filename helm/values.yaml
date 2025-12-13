@@ -1,10 +1,10 @@
 replicaCount: 1
 image:
   repository: mykytakhomenko/kbot
-  tag: "v1.0.6-e88a7b2"
+  tag: "v1.0.6-a5ca94d"
   arch: amd64
   os: linux
-  registry: docker.io
+  registry: ""
 secret:
   envName: "TELE_TOKEN"
   tokenKey: "token"

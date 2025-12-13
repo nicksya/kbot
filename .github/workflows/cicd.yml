@@ -29,7 +29,12 @@ jobs:
         env:
           APP: "kbot"
           REGISTRY: ${{ secrets.DOCKERHUB_USERNAME }}
-        run: make image push TARGETARCH=amd64 TARGETOS=linux REGISTRY=docker.io REPO=mykytakhomenko/kbot
+        run: |
+          echo $REGISTRY
+          echo $REPO
+          echo $TARGETOS
+          echo $TARGETARCH 
+          make image push TARGETARCH=$TARGETARCH TARGETOS=linux REGISTRY=docker.io REPO=mykytakhomenko/kbot
 
   cd:
     name: CD

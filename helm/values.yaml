@@ -1,7 +1,7 @@
 replicaCount: 1
 image:
   repository: mykytakhomenko/kbot
-  tag: "v1.0.6-a5ca94d"
+  tag: "v1.0.6-c5382b0"
   arch: amd64
   os: linux
   registry: ""

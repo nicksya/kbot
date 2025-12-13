@@ -43,7 +43,7 @@ image:
 	@docker build . -t ${REGISTRY}/${REPO}:${VERSION}-${TARGETOS}-${TARGETARCH} --platform $(TARGETPLATFORM)
 
 push:
-	@echo "Pushing Docker image..."
+	@echo "Pushing Docker image with tag ${REGISTRY}/${REPO}:${VERSION}-${TARGETOS}-${TARGETARCH}"
 	docker push ${REGISTRY}/${REPO}:${VERSION}-${TARGETOS}-${TARGETARCH}
 
 clean:

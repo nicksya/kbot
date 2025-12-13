@@ -34,7 +34,7 @@ jobs:
           echo $REPO
           echo $TARGETOS
           echo $TARGETARCH 
-          make image push TARGETARCH=$TARGETARCH TARGETOS=linux REGISTRY=docker.io REPO=mykytakhomenko/kbot
+          make image push TARGETARCH=$TARGETARCH TARGETOS=$TARGETOS REGISTRY=$REGISTRY REPO=$REPO
 
   cd:
     name: CD

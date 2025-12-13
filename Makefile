@@ -39,11 +39,11 @@ build: format get
 	@CGO_ENABLED=0 GOOS=${TARGETOS} GOARCH=${TARGETARCH} go build -v -o kbot -ldflags "-X=github.com/nicksya/kbot/cmd.appVersion=${VERSION} -w -s"
 
 image:
-	@echo "Building Docker image with tag ${REGISTRY}/${REPO}:${VERSION}-${TARGETOS}-${TARGETARCH}"
+	@echo "Building Docker image..."
 	@docker build . -t ${REGISTRY}/${REPO}:${VERSION}-${TARGETOS}-${TARGETARCH} --platform $(TARGETPLATFORM)
 
 push:
-	@echo "Pushing Docker image with tag ${REGISTRY}/${REPO}:${VERSION}-${TARGETOS}-${TARGETARCH}"
+	@echo "Pushing Docker image..."
 	docker push ${REGISTRY}/${REPO}:${VERSION}-${TARGETOS}-${TARGETARCH}
 
 clean:

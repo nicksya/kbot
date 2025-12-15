@@ -17,12 +17,6 @@ pipeline {
                 sh 'make test'
             }
         }
-        stage("build") {
-            steps {
-                echo "BUILD EXECUTION STARTED"
-                sh 'make build TARGETOS=$OS TARGETARCH=$ARCH'
-            }
-        }
         stage("image") {
             steps {
                 echo "IMAGE PREPARATION STARTED"

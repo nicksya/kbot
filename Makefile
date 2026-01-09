@@ -3,7 +3,7 @@ REGISTRY = docker.io
 REPO = mykytakhomenko/kbot
 VERSION = $(shell git describe --tags --abbrev=0)-$(shell git rev-parse --short HEAD)
 TARGETOS = linux
-TARGETARCH = amd64
+TARGETARCH ?= amd64
 TARGETPLATFORM = $(TARGETOS)/$(TARGETARCH)
 # Multiplatform options
 # TARGETPLATFORM = linux/amd64,linux/arm64

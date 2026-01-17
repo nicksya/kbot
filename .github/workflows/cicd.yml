@@ -5,11 +5,12 @@ on:
   # push:
   #   branches:
   #     - main
+
 env:
   CONTAINER_REGISTRY: "docker.io"
   REPO: "mykytakhomenko/kbot"
   TARGETOS: linux
-  TARGETARCH: arm64
+  TARGETARCH: amd64
 
 jobs:
   ci:

@@ -1,8 +1,8 @@
 replicaCount: 1
 image:
   repository: mykytakhomenko/kbot
-  tag: "v1.0.6-8fd4778"
-  arch: arm64
+  tag: "v1.0.6-a32b154"
+  arch: amd64
   os: linux
   registry: "docker.io"
 secret:

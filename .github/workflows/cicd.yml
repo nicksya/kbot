@@ -1,6 +1,9 @@
 name: KBOT-CICD
 
-on: push
+on: 
+  push:
+    branches:
+      - main
 env:
   CONTAINER_REGISTRY: "docker.io"
   REPO: "mykytakhomenko/kbot"

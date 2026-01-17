@@ -1,9 +1,10 @@
 name: KBOT-CICD
 
-on: 
-  push:
-    branches:
-      - main
+on:
+  workflow_dispatch:   # manual trigger only
+  # push:
+  #   branches:
+  #     - main
 env:
   CONTAINER_REGISTRY: "docker.io"
   REPO: "mykytakhomenko/kbot"

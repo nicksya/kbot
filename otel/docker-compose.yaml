@@ -3,7 +3,7 @@ services:
 
   # Kbot
   kbot:
-    image: mykytakhomenko/kbot:v1.0.7-otel
+    image: mykytakhomenko/kbot:v1.0.7-otel-linux-amd64
     environment:
       - METRICS_HOST=collector:4317
       - TELE_TOKEN=${TELE_TOKEN}

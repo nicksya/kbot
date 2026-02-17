@@ -47,3 +47,7 @@ spec:
               secretKeyRef:
                 key: {{ .Values.secret.tokenKey }}
                 name: {{ .Values.secret.tokenName }}
+
+          {{- with .Values.env }}
+          {{- toYaml . | nindent 10 }}
+          {{- end }}

@@ -119,20 +119,20 @@ prometheus:
     persistentVolume:
       enabled: true
       size: 10Gi   # match existing PVC
-  serverFiles:
-    prometheus.yml:
-      global:
-        scrape_interval: 15s
+  # serverFiles:
+  #   prometheus.yml:
+  #     global:
+  #       scrape_interval: 15s
 
-      scrape_configs:
-        - job_name: "prometheus"
-          static_configs:
-            - targets: ["localhost:9090"]
+  #     scrape_configs:
+  #       - job_name: "prometheus"
+  #         static_configs:
+  #           - targets: ["localhost:9090"]
 
-        - job_name: "otel-collector"
-          static_configs:
-            - targets:
-                - kbot-opentelemetry-collector:8889
+  #       - job_name: "otel-collector"
+  #         static_configs:
+  #           - targets:
+  #               - kbot-opentelemetry-collector:8889
     # global:
     #   scrape_interval: 15s
 
@@ -144,8 +144,8 @@ prometheus:
     #       - targets:
     #           - kbot-opentelemetry-collector:8889
 
-    # extraScrapeConfigs: |
-    #   - job_name: "otel-collector"
-    #     static_configs:
-    #       - targets:
-    #           - kbot-opentelemetry-collector:8889
+    extraScrapeConfigs:
+      - job_name: "otel-collector"
+        static_configs:
+          - targets:
+              - kbot-opentelemetry-collector:8889

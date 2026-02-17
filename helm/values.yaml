@@ -4,7 +4,7 @@
 replicaCount: 1
 image:
   repository: mykytakhomenko/kbot
-  tag: "v1.0.7-otel-linux"
+  tag: "v1.0.7-otel"
   arch: arm64
   os: linux
   registry: "docker.io"
@@ -25,149 +25,51 @@ env:
 # -------------------------------------------------------------------
 opentelemetry-collector:
   mode: deployment
+  replicaCount: 1
+  image:
+    repository: otel/opentelemetry-collector-contrib
+    tag: 0.78.0-arm64
+  command.name: "otelcol"
 
-  service:
-    ports:
-      otlp:
-        enabled: true
-        containerPort: 4317
+  ports:
+    otlp:
+      enabled: true
+      containerPort: 4317
+      servicePort: 4317
+
+    otlp-http:
+      enabled: true
+      containerPort: 3030
+      servicePort: 3030
+
+    prometheus:
+      enabled: true
+      containerPort: 8889
+      servicePort: 8889
 
   config:
     receivers:
       otlp:
         protocols:
           grpc:
-
-    processors:
-      batch:
+          http:
+            endpoint: "0.0.0.0:3030"
 
     exporters:
+      logging: {}
+      loki:
+        endpoint: http://loki:3100/loki/api/v1/push
       prometheus:
         endpoint: "0.0.0.0:8889"
 
     service:
       pipelines:
+        logs:
+          receivers: [otlp]
+          exporters: [loki]
+        traces:
+          receivers: [otlp]
+          exporters: [logging]
         metrics:
           receivers: [otlp]
-          processors: [batch]
-          exporters: [prometheus]
-
-# -------------------------------------------------------------------
-# Prometheus
-# -------------------------------------------------------------------
-prometheus:
-  alertmanager:
-    enabled: false
-
-  server:
-    persistentVolume:
-      enabled: true
-      size: 10Gi
-
-  serverFiles:
-    prometheus.yml:
-      global:
-        scrape_interval: 15s
-      scrape_configs:
-        - job_name: otel
-          static_configs:
-            - targets:
-                - opentelemetry-collector:8889
-
-# -------------------------------------------------------------------
-# Grafana
-# -------------------------------------------------------------------
-grafana:
-  adminPassword: admin
-
-  persistence:
-    enabled: true
-    size: 5Gi
-
-  service:
-    type: ClusterIP
-
-  datasources:
-    datasources.yaml:
-      apiVersion: 1
-      datasources:
-        - name: Prometheus
-          type: prometheus
-          url: http://prometheus-server
-          access: proxy
-          isDefault: true
-
-        - name: Loki
-          type: loki
-          url: http://loki:3100
-          access: proxy
-
-# -------------------------------------------------------------------
-# Loki
-# -------------------------------------------------------------------
-loki:
-  persistence:
-    enabled: true
-    size: 10Gi
-
-  config:
-    auth_enabled: false
-
-    server:
-      http_listen_port: 3100
-
-    common:
-      path_prefix: /var/loki
-      storage:
-        filesystem:
-          chunks_directory: /var/loki/chunks
-          rules_directory: /var/loki/rules
-
-    schema_config:
-      configs:
-        - from: 2023-01-01
-          store: boltdb-shipper
-          object_store: filesystem
-          schema: v12
-          index:
-            prefix: index_
-            period: 24h
-
-# -------------------------------------------------------------------
-# Fluent Bit
-# -------------------------------------------------------------------
-fluent-bit:
-  config:
-    service: |
-      [SERVICE]
-          Flush        1
-          Log_Level    info
-
-    inputs: |
-      [INPUT]
-          Name              tail
-          Path              /var/log/containers/*.log
-          Tag               kube.*
-
-    filters: |
-      [FILTER]
-          Name   lua
-          Match  kube.*
-          script /fluent-bit/scripts/docker-metadata.lua
-          call   enrich
-
-    outputs: |
-      [OUTPUT]
-          Name  loki
-          Match *
-          Host  loki
-          Port  3100
-
-  extraVolumes:
-    - name: lua-scripts
-      configMap:
-        name: fluent-bit-lua
-
-  extraVolumeMounts:
-    - name: lua-scripts
-      mountPath: /fluent-bit/scripts
+          exporters: [logging, prometheus]

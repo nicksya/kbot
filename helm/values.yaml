@@ -28,8 +28,9 @@ opentelemetry-collector:
   replicaCount: 1
   image:
     repository: otel/opentelemetry-collector-contrib
-    tag: 0.78.0-arm64
-  command.name: "otelcol"
+  #   tag: 0.78.0-arm64
+  command:
+    name: otelcol-contrib
 
   ports:
     otlp:

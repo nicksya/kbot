@@ -18,7 +18,7 @@ securityContext:
 # kbot → observability wiring
 env:
   - name: METRICS_HOST
-    value: "opentelemetry-collector:4317"
+    value: "kbot-opentelemetry-collector:4317"
 
 # -------------------------------------------------------------------
 # OpenTelemetry Collector

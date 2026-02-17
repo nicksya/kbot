@@ -114,6 +114,8 @@ grafana:
 # -------------------------------------------------------------------
 prometheus:
   server:
+    service:
+      servicePort: 9090
     persistentVolume:
       enabled: true
       size: 10Gi   # match existing PVC

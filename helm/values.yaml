@@ -32,7 +32,7 @@ opentelemetry-collector:
   command:
     name: otelcol-contrib
 
-  # ports:
+  ports:
   #   otlp:
   #     enabled: true
   #     containerPort: 4317
@@ -43,10 +43,10 @@ opentelemetry-collector:
   #     containerPort: 3030
   #     servicePort: 3030
 
-  #   prometheus:
-  #     enabled: true
-  #     containerPort: 8889
-  #     servicePort: 8889
+    prometheus:
+      enabled: true
+      containerPort: 8889
+      servicePort: 8889
 
   config:
     receivers:

@@ -56,11 +56,19 @@ opentelemetry-collector:
             endpoint: "0.0.0.0:4317"
           http:
             endpoint: "0.0.0.0:3030"
+      # prometheus:
+      #   config:
+      #     scrape_configs:
+      #       - job_name: opentelemetry-collector
+      #         scrape_interval: 10s
+      #         static_configs:
+      #           - targets:
+      #               - ${env:MY_POD_IP}:8888
 
     exporters:
       logging: {}
       loki:
-        endpoint: http://loki:3100/loki/api/v1/push
+        endpoint: http://kbot-loki:3100/loki/api/v1/push
       prometheus:
         endpoint: "0.0.0.0:8889"
 
@@ -75,3 +83,42 @@ opentelemetry-collector:
         metrics:
           receivers: [otlp]
           exporters: [logging, prometheus]
+
+# -------------------------------------------------------------------
+# Graphana
+# -------------------------------------------------------------------
+grafana:
+  adminPassword: admin
+
+  service:
+    type: NodePort
+
+  datasources:
+    datasources.yaml:
+      apiVersion: 1
+      datasources:
+        - name: Prometheus
+          type: prometheus
+          uid: prometheus
+          url: http://kbot-prometheus-server:9090
+          access: proxy
+          isDefault: true
+
+        - name: Loki
+          type: loki
+          uid: loki
+          url: http://kbot-loki:3100
+          access: proxy
+# -------------------------------------------------------------------
+# Prometheus
+# -------------------------------------------------------------------
+prometheus:
+  server:
+    global:
+      scrape_interval: 15s
+
+    extraScrapeConfigs: |
+      - job_name: "otel-collector"
+        static_configs:
+          - targets:
+              - kbot-opentelemetry-collector:8889

@@ -133,7 +133,7 @@ loki:
   auth_enabled: false
 
   singleBinary:
-    replicas: 1
+    replicas: 0
 
   server:
     http_listen_port: 3100

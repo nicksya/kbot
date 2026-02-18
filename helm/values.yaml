@@ -133,7 +133,7 @@ loki:
   auth_enabled: false
 
   singleBinary:
-    replicas: 0
+    replicas: 1
 
   read:
     replicas: 0

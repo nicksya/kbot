@@ -132,6 +132,9 @@ prometheus:
 loki:
   auth_enabled: false
 
+  singleBinary:
+    replicas: 1
+
   server:
     http_listen_port: 3100
     grpc_listen_port: 9096
@@ -143,5 +146,6 @@ loki:
     type: filesystem
 
   persistence:
-    enabled: false  # true for production
+    enabled: true  # true for production
+    size: 5Gi
 

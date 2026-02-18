@@ -149,10 +149,6 @@ loki:
   gateway:
     enabled: false
 
-  monitoring:
-    selfMonitoring:
-      enabled: false
-
   lokiCanary:
     enabled: false
 

@@ -146,6 +146,16 @@ loki:
   backend:
     replicas: 0
 
+  gateway:
+    enabled: false
+
+  monitoring:
+    selfMonitoring:
+      enabled: false
+
+  lokiCanary:
+    enabled: false
+
   server:
     http_listen_port: 3100
     grpc_listen_port: 9096

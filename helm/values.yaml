@@ -132,28 +132,6 @@ prometheus:
 loki:
   auth_enabled: false
 
-  singleBinary:
-    replicas: 1
-    persistence:
-      enabled: true  # true for production
-      size: 5Gi
-
-  read:
-    replicas: 0
-
-  write:
-    replicas: 0
-
-  backend:
-    replicas: 0
-
-  gateway:
-    enabled: false
-
-  server:
-    http_listen_port: 3100
-    grpc_listen_port: 9096
-
   commonConfig:
     replication_factor: 1
 
@@ -162,5 +140,25 @@ loki:
     filesystem:
       chunks_directory: /var/loki/chunks
       rules_directory: /var/loki/rules
+
+  singleBinary:
+    replicas: 1
+    persistence:
+      enabled: true
+      size: 5Gi
+
+  read:
+    replicas: 0
+  write:
+    replicas: 0
+  backend:
+    replicas: 0
+
+  gateway:
+    enabled: false
+
+  monitoring:
+    selfMonitoring:
+      enabled: false   # disable canary + agent
 
 

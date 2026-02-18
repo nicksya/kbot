@@ -37,5 +37,5 @@ dependencies:
     repository: https://prometheus-community.github.io/helm-charts
 
   - name: loki
-    version: 5.xx.x
+    version: 5.8.11
     repository: https://grafana.github.io/helm-charts

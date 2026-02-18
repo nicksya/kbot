@@ -134,6 +134,9 @@ loki:
 
   singleBinary:
     replicas: 1
+    persistence:
+      enabled: true  # true for production
+      size: 5Gi
 
   read:
     replicas: 0
@@ -156,8 +159,8 @@ loki:
 
   storage:
     type: filesystem
+    filesystem:
+      chunks_directory: /var/loki/chunks
+      rules_directory: /var/loki/rules
 
-  persistence:
-    enabled: true  # true for production
-    size: 5Gi
 

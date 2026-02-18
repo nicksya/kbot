@@ -126,4 +126,22 @@ prometheus:
     persistentVolume:
       enabled: true
       size: 10Gi
+# -------------------------------------------------------------------
+# Loki
+# -------------------------------------------------------------------
+loki:
+  auth_enabled: false
+
+  server:
+    http_listen_port: 3100
+    grpc_listen_port: 9096
+
+  commonConfig:
+    replication_factor: 1
+
+  storage:
+    type: filesystem
+
+  persistence:
+    enabled: false  # true for production
 

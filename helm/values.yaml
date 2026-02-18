@@ -132,8 +132,10 @@ prometheus:
 loki:
   auth_enabled: false
 
+  deploymentMode: SingleBinary
+
   singleBinary:
-    replicas: 1
+    replicas: 0
 
   read:
     replicas: 0

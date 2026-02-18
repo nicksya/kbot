@@ -132,7 +132,7 @@ prometheus:
 loki:
   auth_enabled: false
 
-  deploymentMode: SingleBinary
+  # deploymentMode: SingleBinary
 
   singleBinary:
     replicas: 0
@@ -150,7 +150,7 @@ loki:
     enabled: false
 
   lokiCanary:
-    enabled: false
+    enabled: true
 
   server:
     http_listen_port: 3100

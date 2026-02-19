@@ -130,8 +130,7 @@ prometheus:
 # Loki
 # -------------------------------------------------------------------
 loki:
-  config:
-    auth_enabled: false
+  auth_enabled: false
 
   commonConfig:
     replication_factor: 1
@@ -143,17 +142,10 @@ loki:
       rules_directory: /var/loki/rules
 
   singleBinary:
-    replicas: 1
+    replicas: 0
     persistence:
       enabled: true
       size: 5Gi
-
-  read:
-    replicas: 0
-  write:
-    replicas: 0
-  backend:
-    replicas: 0
 
   gateway:
     enabled: false

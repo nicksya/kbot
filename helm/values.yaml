@@ -161,6 +161,5 @@ loki:
     selfMonitoring:
       enabled: false   # disable canary + agent
 
-test:
-  enabled: false
+
 

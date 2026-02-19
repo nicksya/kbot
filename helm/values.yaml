@@ -157,9 +157,5 @@ loki:
   gateway:
     enabled: false
 
-  monitoring:
-    selfMonitoring:
-      enabled: false   # disable canary + agent
-
 
 

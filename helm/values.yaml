@@ -142,7 +142,7 @@ loki:
       rules_directory: /var/loki/rules
 
   singleBinary:
-    replicas: 0
+    replicas: 1
     persistence:
       enabled: true
       size: 5Gi

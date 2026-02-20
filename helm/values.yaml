@@ -1,7 +1,7 @@
 replicaCount: 1
 image:
   repository: mykytakhomenko/kbot
-  tag: "v1.0.6-3d03153"
+  tag: "v1.0.7-otel"
   arch: arm64
   os: linux
   registry: "docker.io"
@@ -11,3 +11,6 @@ secret:
   tokenName: "kbot"
 securityContext:
   privileged: true
+env:
+  - name: METRICS_HOST
+    value: "opentelemetry-collector:4317"
